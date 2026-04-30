@@ -19,6 +19,15 @@ AIが日報を自動生成してGoogle Chat（将来的にはLINE）に投稿す
 - 出力テキストはMarkdown記法を使わない（LINEで表示するため）
 - APIキーは必ず.envまたはStreamlit Secrets経由で管理する
 
+## 投稿先の方針
+
+現時点ではGoogle Chat Webhookは未設定（日報生成機能のみで運用）。
+
+実際のクライアント提案時にLINE連携を実装する方針：
+- 飲食店の業務連絡はLINEが主流のため、Google ChatよりLINEの方が実用的
+- LINE連携は report.py の post_to_google_chat() をLINE Messaging API呼び出しに差し替えるだけ
+- LINE公式アカウント（月額費用あり）が必要なため、クライアント確定後に設定する
+
 ## 将来的な拡張予定
 - 投稿先をLINEに変更（LINE Messaging API）
 - 週報・月報の自動集計機能
