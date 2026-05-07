@@ -88,14 +88,18 @@ elif st.session_state.stage == "confirm":
     col1, col2 = st.columns(2)
 
     with col1:
+        webhook_url = os.environ.get("GOOGLE_CHAT_WEBHOOK")
         if st.button("Google Chatに投稿する", type="primary"):
-            webhook_url = os.environ.get("GOOGLE_CHAT_WEBHOOK")
-            post_to_google_chat(report, webhook_url)
-            st.success("Google Chatに投稿しました！")
-
-            if st.button("新しい日報を入力する"):
-                st.session_state.stage = "input"
-                st.rerun()
+            if not webhook_url:
+                st.error("GOOGLE_CHAT_WEBHOOK が設定されていません。")
+            else:
+                try:
+                    post_to_google_chat(report, webhook_url)
+                    st.success("Google Chatに投稿しました！")
+                    st.session_state.stage = "input"
+                    st.rerun()
+                except RuntimeError as e:
+                    st.error(str(e))
 
     with col2:
         if st.button("やり直す"):
